@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CoinRankViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
