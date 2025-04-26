@@ -43,6 +43,7 @@ class CoinRankViewController: UIViewController, UITableViewDelegate, UITableView
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [unowned self] value in
                 tableView.reloadData()
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             })
             .store(in: &subscribers)
         
