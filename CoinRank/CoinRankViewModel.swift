@@ -20,10 +20,10 @@ class CoinRankViewModel {
     @Published var  limit = 20
     @Published var  offset = 0
     @Published var  total = 100
-    @Published var errorMessage = ""
-    @Published var currentPage = "1"
-    @Published var showActivityIndicator = false
-    @Published var title = "Coin Rank by Highest Price"
+    @Published var  errorMessage = ""
+    @Published var  currentPage = "1"
+    @Published var  showActivityIndicator = false
+    @Published var  title = "Coin Rank by Highest Price"
     @Published var  coins: [Coins] = []
     let apiService: APIServiceProtocol
     init(apiService: APIServiceProtocol) {
