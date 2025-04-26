@@ -7,8 +7,10 @@
 
 import UIKit
 import Combine
-class CoinRankViewController: UIViewController {
-
+import SwiftUI
+class CoinRankViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var pageNumberLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -18,6 +20,8 @@ class CoinRankViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
         bind()
     }
     func bind(){
@@ -31,6 +35,14 @@ class CoinRankViewController: UIViewController {
                 } else {
                     activityIndicator.stopAnimating()
                 }
+            })
+            .store(in: &subscribers)
+        
+        viewModel.$coins
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [unowned self] value in
+                tableView.reloadData()
             })
             .store(in: &subscribers)
         
@@ -48,6 +60,11 @@ class CoinRankViewController: UIViewController {
             .assign(to: \.text!, on: pageNumberLabel)
             .store(in: &subscribers)
         
+        viewModel.$title
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.text!, on: titleLabel)
+            .store(in: &subscribers)
+        
         setUpSortMenu()
         
         fetchCoinRank()
@@ -59,6 +76,24 @@ class CoinRankViewController: UIViewController {
     @IBAction func previousButtonPressed(_ sender: UIButton) {
         viewModel?.setPageNumber(isNext: false)
         fetchCoinRank()
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel?.coins.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath)
+        
+        guard let viewModel = viewModel else { return cell }
+        
+         let coin = viewModel.coins[indexPath.row]
+            
+         cell.contentConfiguration = UIHostingConfiguration(content: {
+             CoinRankCellView(name: coin.name, iconURL: coin.iconUrl, currentPrice: viewModel.formatAmount(amount: coin.price), performance24h: viewModel.formatAmount(amount:coin.volume24h))
+         })
+        
+        
+        return cell
     }
     
     func setUpSortMenu() {

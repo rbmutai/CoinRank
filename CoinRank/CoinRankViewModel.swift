@@ -23,6 +23,7 @@ class CoinRankViewModel {
     @Published var errorMessage = ""
     @Published var currentPage = "1"
     @Published var showActivityIndicator = false
+    @Published var title = "Coin Rank by Market Cap"
     @Published var  coins: [Coins] = []
     let apiService: APIServiceProtocol
     init(apiService: APIServiceProtocol) {
@@ -79,11 +80,19 @@ class CoinRankViewModel {
         switch order {
         case .price:
             orderBy = "price"
+            title = "Coin Rank by Highest Price"
         case .marketCap:
             orderBy = "marketCap"
+            title = "Coin Rank by Market Cap"
         case .performance:
             orderBy = "24hVolume"
+            title = "Coin Rank by 24h Performance"
         }
+    }
+    
+    func formatAmount(amount: String) -> String {
+        let amount = Double(amount)?.formatted(.currency(code: "USD").presentation(.narrow))
+        return amount ?? "Unavailable"
     }
     
 }

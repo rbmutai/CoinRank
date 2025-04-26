@@ -51,6 +51,16 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qQ0-LB-Z7m">
                                 <rect key="frame" x="16" y="110" width="361" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="KqB-AF-hOw">
+                                        <rect key="frame" x="0.0" y="50" width="361" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KqB-AF-hOw" id="R3o-Z0-Ub1">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" id="gX1-Vm-8T4">
                                 <rect key="frame" x="16" y="393" width="361" height="44"/>
@@ -119,17 +129,29 @@
                                     <constraint firstItem="Dbk-GC-tol" firstAttribute="centerY" secondItem="q5C-u7-DY8" secondAttribute="centerY" id="ndN-83-IR5"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sZU-de-ymb">
+                                <rect key="frame" x="16" y="79" width="318" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="A7i-Av-Oxe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zP8-WL-YG4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="q5C-u7-DY8" firstAttribute="top" secondItem="qQ0-LB-Z7m" secondAttribute="bottom" constant="8" id="1mP-e4-vKF"/>
+                            <constraint firstItem="sZU-de-ymb" firstAttribute="top" secondItem="zP8-WL-YG4" secondAttribute="top" constant="20" id="6mm-ug-beU"/>
                             <constraint firstItem="zP8-WL-YG4" firstAttribute="trailing" secondItem="Iy2-Vq-pDi" secondAttribute="trailing" constant="16" id="9eI-aK-mxJ"/>
+                            <constraint firstItem="Iy2-Vq-pDi" firstAttribute="leading" secondItem="sZU-de-ymb" secondAttribute="trailing" constant="8" id="Jw1-fr-QFt"/>
                             <constraint firstItem="qQ0-LB-Z7m" firstAttribute="leading" secondItem="zP8-WL-YG4" secondAttribute="leading" constant="16" id="KPW-0o-fvW"/>
                             <constraint firstItem="zP8-WL-YG4" firstAttribute="trailing" secondItem="qQ0-LB-Z7m" secondAttribute="trailing" constant="16" id="MYY-7L-8Na"/>
                             <constraint firstItem="qQ0-LB-Z7m" firstAttribute="top" secondItem="Iy2-Vq-pDi" secondAttribute="bottom" constant="8" id="QAa-M1-fFj"/>
                             <constraint firstItem="q5C-u7-DY8" firstAttribute="bottom" secondItem="zP8-WL-YG4" secondAttribute="bottom" id="TG5-hy-0N6"/>
                             <constraint firstItem="q5C-u7-DY8" firstAttribute="leading" secondItem="zP8-WL-YG4" secondAttribute="leading" constant="16" id="Tkz-Ex-Xuz"/>
+                            <constraint firstItem="sZU-de-ymb" firstAttribute="leading" secondItem="zP8-WL-YG4" secondAttribute="leading" constant="16" id="USf-gl-EC0"/>
                             <constraint firstItem="Iy2-Vq-pDi" firstAttribute="top" secondItem="zP8-WL-YG4" secondAttribute="top" constant="8" id="d9P-cd-V74"/>
                             <constraint firstItem="zP8-WL-YG4" firstAttribute="trailing" secondItem="q5C-u7-DY8" secondAttribute="trailing" constant="16" id="iGR-ki-jpP"/>
                         </constraints>
@@ -140,6 +162,7 @@
                         <outlet property="pageNumberLabel" destination="s51-hw-2Ki" id="t17-1u-pSQ"/>
                         <outlet property="sortButton" destination="Iy2-Vq-pDi" id="Pb5-22-ff9"/>
                         <outlet property="tableView" destination="qQ0-LB-Z7m" id="Kix-Sp-2RK"/>
+                        <outlet property="titleLabel" destination="sZU-de-ymb" id="R1B-6u-Igm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wDj-6W-RiN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
