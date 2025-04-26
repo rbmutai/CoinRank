@@ -15,7 +15,7 @@ enum SortOrder: String {
 }
 
 class CoinRankViewModel {
-    @Published var  orderBy = "marketCap"
+    @Published var  orderBy = "price"
     @Published var  orderDirection = "desc"
     @Published var  limit = 20
     @Published var  offset = 0
@@ -23,7 +23,7 @@ class CoinRankViewModel {
     @Published var errorMessage = ""
     @Published var currentPage = "1"
     @Published var showActivityIndicator = false
-    @Published var title = "Coin Rank by Market Cap"
+    @Published var title = "Coin Rank by Highest Price"
     @Published var  coins: [Coins] = []
     let apiService: APIServiceProtocol
     init(apiService: APIServiceProtocol) {
