@@ -89,7 +89,7 @@ class CoinRankViewController: UIViewController, UITableViewDelegate, UITableView
          let coin = viewModel.coins[indexPath.row]
             
          cell.contentConfiguration = UIHostingConfiguration(content: {
-             CoinRankCellView(name: coin.name, iconURL: coin.iconUrl, currentPrice: viewModel.formatAmount(amount: coin.price), performance24h: viewModel.formatAmount(amount:coin.volume24h))
+             CoinRankCellView(name: coin.name, iconURL: coin.iconUrl, currentPrice: viewModel.formatAmount(amount: coin.price), performance24h: viewModel.formatAmount(amount: coin.volume24h))
          })
         
         
