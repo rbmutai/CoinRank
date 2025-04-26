@@ -31,8 +31,11 @@ struct Coins: Decodable {
    }
 }
 
-struct CoinData: Decodable {
+struct CoinRank: Decodable {
     let coins: [Coins]
 }
 
+struct CoinRankData: Decodable {
+    let data: CoinRank
+}
 
