@@ -9,6 +9,7 @@ import UIKit
 
 class CoinRankViewController: UIViewController {
 
+    var viewModel: CoinRankViewModel?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

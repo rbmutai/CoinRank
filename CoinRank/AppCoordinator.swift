@@ -16,7 +16,8 @@ class AppCoordinator : Coordinator {
         guard let favourites = storyboard.instantiateViewController(withIdentifier: "FavouritesViewController") as? FavouritesViewController else { return }
 
         guard let coinRank = storyboard.instantiateViewController(withIdentifier: "CoinRankViewController") as? CoinRankViewController else { return }
-       
+        let coinRankViewModel = CoinRankViewModel(apiService: APIService())
+        coinRank.viewModel = coinRankViewModel
 
         homeTabBarController.viewControllers = [coinRank, favourites]
         
