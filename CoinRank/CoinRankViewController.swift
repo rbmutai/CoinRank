@@ -6,13 +6,95 @@
 //
 
 import UIKit
-
+import Combine
 class CoinRankViewController: UIViewController {
 
+    @IBOutlet weak var pageNumberLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var sortButton: UIButton!
     var viewModel: CoinRankViewModel?
+    private var subscribers = Set<AnyCancellable>()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        bind()
+    }
+    func bind(){
+        guard let viewModel = viewModel else { return }
+        
+        viewModel.$showActivityIndicator
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [unowned self] value in
+                if value {
+                    activityIndicator.startAnimating()
+                } else {
+                    activityIndicator.stopAnimating()
+                }
+            })
+            .store(in: &subscribers)
+        
+        viewModel.$errorMessage
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [unowned self] value in
+                if value != "" {
+                    showAlert(message: value)
+                }
+            })
+            .store(in: &subscribers)
+        
+        viewModel.$currentPage
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.text!, on: pageNumberLabel)
+            .store(in: &subscribers)
+        
+        setUpSortMenu()
+        
+        fetchCoinRank()
+    }
+    @IBAction func nextButtonPressed(_ sender: UIButton) {
+        viewModel?.setPageNumber(isNext: true)
+        fetchCoinRank()
+    }
+    @IBAction func previousButtonPressed(_ sender: UIButton) {
+        viewModel?.setPageNumber(isNext: false)
+        fetchCoinRank()
+    }
+    
+    func setUpSortMenu() {
+        let price = UIAction(title: "Highest Price", image: UIImage(systemName: "arrow.up")) { _ in
+            self.sortCoinRank(order: .price)
+        }
+        
+        let performance = UIAction(title: "Best 24h Performance", image: UIImage(systemName: "clock")) { _ in
+            self.sortCoinRank(order: .performance)
+        }
+        
+        let marketCap = UIAction(title: "Market Cap", image: UIImage(systemName: "dollarsign")) { _ in
+            self.sortCoinRank(order: .marketCap)
+        }
+        
+        let menu = UIMenu(title: "Filter By", children: [price, performance, marketCap])
+        sortButton.menu = menu
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel)
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
+    
+    func sortCoinRank(order: SortOrder) {
+        viewModel?.filterBy(order: order)
+        viewModel?.resetPageNumber()
+        fetchCoinRank()
+    }
+    
+    func fetchCoinRank() {
+        Task {
+            await viewModel?.getCoinsInfo()
+        }
     }
 
 

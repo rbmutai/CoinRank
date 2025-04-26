@@ -7,12 +7,21 @@
 
 import Foundation
 import Combine
+
+enum SortOrder: String {
+    case marketCap
+    case price
+    case performance
+}
+
 class CoinRankViewModel {
     @Published var  orderBy = "marketCap"
     @Published var  orderDirection = "desc"
     @Published var  limit = 20
     @Published var  offset = 0
+    @Published var  total = 100
     @Published var errorMessage = ""
+    @Published var currentPage = "1"
     @Published var showActivityIndicator = false
     @Published var  coins: [Coins] = []
     let apiService: APIServiceProtocol
@@ -45,6 +54,35 @@ class CoinRankViewModel {
                 errorMessage = "Data error"
             default:
                 errorMessage = "Error: \(error.localizedDescription)"
+        }
+    }
+    
+    func setPageNumber(isNext: Bool) {
+        if isNext {
+            if offset < (total/limit)-1 {
+                offset += 1
+            }
+        } else {
+            if offset > 0 {
+                offset -= 1
+            }
+        }
+        currentPage = "\(offset+1)"
+    }
+    
+    func resetPageNumber() {
+        offset = 0
+        currentPage = "\(offset+1)"
+    }
+    
+    func filterBy(order: SortOrder){
+        switch order {
+        case .price:
+            orderBy = "price"
+        case .marketCap:
+            orderBy = "marketCap"
+        case .performance:
+            orderBy = "24hVolume"
         }
     }
     
