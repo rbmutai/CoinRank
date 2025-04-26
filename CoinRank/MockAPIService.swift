@@ -19,9 +19,9 @@ class MockAPIService: APIServiceProtocol {
             
             let decoder = JSONDecoder()
             
-            let coinData = try decoder.decode(CoinData.self, from: data)
+            let coinRankData = try decoder.decode(CoinRankData.self, from: data)
             
-            return coinData.coins
+            return coinRankData.data.coins
             
         } catch {
             throw ResultError.parsing

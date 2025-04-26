@@ -15,7 +15,7 @@ struct Coins: Decodable {
    let marketCap: String
    let price: String
    let rank: Int
-   let sparkline: [String]
+   let sparkline: [String?]
    let volume24h: String
  
    enum CodingKeys: String, CodingKey {
