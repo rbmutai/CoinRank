@@ -52,7 +52,7 @@ class PersistenceController {
         
     }
     
-    func getFaouriteCoins() -> [String] {
+    func getFavouriteCoins() -> [String] {
         var favourites: [String] = []
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "FavouriteCoins")
