@@ -9,6 +9,7 @@ import Foundation
 
 protocol APIServiceProtocol {
     func fetchCoins(orderBy: String, orderDirection: String, limit: Int, offset: Int, uuids: [String], isFavourites: Bool) async throws -> [Coins]
+    func fetchPriceHistory(uuid:String, timePeriod: String) async throws -> [CoinPrice]
 }
 
 enum ResultError: Error {
@@ -54,6 +55,25 @@ class APIService: APIServiceProtocol {
         let coinRankData = try decoder.decode(CoinRankData.self, from: data)
         
         return coinRankData.data.coins
+    }
+    
+    func fetchPriceHistory(uuid: String, timePeriod: String) async throws -> [CoinPrice] {
+        let coinPriceUrl = coinRankingAPI + "/coin/\(uuid)/price-history?timePeriod=\(timePeriod)"
+        
+        guard let url = URL(string: coinPriceUrl) else {
+             throw ResultError.data
+         }
+         
+         var urlRequest = URLRequest(url: url)
+         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+         
+         let (data, _) =  try await URLSession.shared.data(for: urlRequest)
+         
+         let decoder = JSONDecoder()
+         
+        let coinPriceData = try decoder.decode(CoinPriceData.self, from: data)
+        
+        return coinPriceData.data.history
     }
     
 }

@@ -28,6 +28,22 @@ class MockAPIService: APIServiceProtocol {
         }
     }
     
-    
+    func fetchPriceHistory(uuid: String, timePeriod: String) async throws -> [CoinPrice] {
+        guard let bundleUrl = Bundle.main.url(forResource: "CoinPrice", withExtension: "json") else {
+            throw ResultError.data }
+        
+        do {
+            let data = try Data(contentsOf: bundleUrl)
+            
+            let decoder = JSONDecoder()
+            
+            let coinPriceData = try decoder.decode(CoinPriceData.self, from: data)
+            
+            return coinPriceData.data.history
+            
+        } catch {
+            throw ResultError.parsing
+        }
+    }
      
 }
