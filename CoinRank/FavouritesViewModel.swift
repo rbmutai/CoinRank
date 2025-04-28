@@ -14,8 +14,10 @@ class FavouritesViewModel {
     @Published var  hasFavourites = true
     let persistence = PersistenceController.shared
     let apiService: APIServiceProtocol
-    init(apiService: APIServiceProtocol) {
+    weak var delegate : ViewModelDelegate?
+    init(apiService: APIServiceProtocol, delegate: ViewModelDelegate?) {
         self.apiService = apiService
+        self.delegate = delegate
     }
     
     func getFavouriteCoins() async {
@@ -64,5 +66,9 @@ class FavouritesViewModel {
     func formatAmount(amount: String) -> String {
         let amount = Double(amount)?.formatted(.currency(code: "USD").presentation(.narrow))
         return amount ?? "Unavailable"
+    }
+    
+    func goToDetail(coin: Coins){
+        delegate?.showDetail(coin: coin)
     }
 }

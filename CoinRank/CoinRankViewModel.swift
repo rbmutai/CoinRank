@@ -8,6 +8,10 @@
 import Foundation
 import Combine
 
+protocol ViewModelDelegate: AnyObject {
+    func showDetail(coin: Coins)
+}
+
 enum SortOrder: String {
     case marketCap
     case price
@@ -27,8 +31,10 @@ class CoinRankViewModel {
     @Published var  coins: [Coins] = []
     let persistence = PersistenceController.shared
     let apiService: APIServiceProtocol
-    init(apiService: APIServiceProtocol) {
+    weak var delegate : ViewModelDelegate?
+    init(apiService: APIServiceProtocol, delegate: ViewModelDelegate?) {
         self.apiService = apiService
+        self.delegate = delegate
     }
     
     func getCoinsInfo() async {
@@ -98,5 +104,9 @@ class CoinRankViewModel {
     
     func saveFavouriteCoin(uuid: String) {
         persistence.saveFavouriteCoin(uuid: uuid)
+    }
+    
+    func goToDetail(coin: Coins){
+        delegate?.showDetail(coin: coin)
     }
 }

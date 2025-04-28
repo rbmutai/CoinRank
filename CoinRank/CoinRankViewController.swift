@@ -115,6 +115,12 @@ class CoinRankViewController: UIViewController, UITableViewDelegate, UITableView
         return swipeConfiguration
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let coin = self.viewModel?.coins[indexPath.row]{
+            viewModel?.goToDetail(coin: coin)
+        }
+    }
+    
     func setUpSortMenu() {
         let price = UIAction(title: "Highest Price", image: UIImage(systemName: "arrow.up")) { _ in
             self.sortCoinRank(order: .price)

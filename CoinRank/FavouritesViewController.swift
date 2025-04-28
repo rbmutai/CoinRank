@@ -103,6 +103,13 @@ class FavouritesViewController: UIViewController, UITabBarControllerDelegate, UI
         
         return swipeConfiguration
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let coin = self.viewModel?.coins[indexPath.row]{
+            viewModel?.goToDetail(coin: coin)
+        }
+    }
+    
     func showAlert(message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel)

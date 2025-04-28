@@ -8,9 +8,10 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    var viewModel: DetailViewModel?
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Coin Details"
 
         // Do any additional setup after loading the view.
     }
