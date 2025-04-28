@@ -36,7 +36,7 @@ class CoinRankViewModel {
         do {
             showActivityIndicator = true
             
-            coins = try await apiService.fetchCoins(orderBy: orderBy, orderDirection: orderDirection, limit: limit, offset: offset)
+            coins = try await apiService.fetchCoins(orderBy: orderBy, orderDirection: orderDirection, limit: limit, offset: offset, uuids: [], isFavourites: false)
             
             showActivityIndicator = false
             

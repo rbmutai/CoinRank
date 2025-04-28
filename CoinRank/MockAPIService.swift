@@ -9,7 +9,7 @@ import Foundation
 
 class MockAPIService: APIServiceProtocol {
     
-    func fetchCoins(orderBy: String, orderDirection: String, limit: Int, offset: Int) async throws -> [Coins] {
+    func fetchCoins(orderBy: String, orderDirection: String, limit: Int, offset: Int, uuids: [String], isFavourites: Bool) async throws -> [Coins] {
         
         guard let bundleUrl = Bundle.main.url(forResource: "Coins", withExtension: "json") else {
             throw ResultError.data }

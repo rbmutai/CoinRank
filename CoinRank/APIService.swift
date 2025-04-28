@@ -8,7 +8,7 @@
 import Foundation
 
 protocol APIServiceProtocol {
-    func fetchCoins(orderBy: String, orderDirection: String, limit: Int, offset: Int) async throws -> [Coins]
+    func fetchCoins(orderBy: String, orderDirection: String, limit: Int, offset: Int, uuids: [String], isFavourites: Bool) async throws -> [Coins]
 }
 
 enum ResultError: Error {
@@ -23,9 +23,22 @@ class APIService: APIServiceProtocol {
     let coinsPath = "/coins?"
     
     
-    func fetchCoins(orderBy: String = "marketCap", orderDirection: String = "desc", limit: Int = 20, offset: Int) async throws -> [Coins] {
+    func fetchCoins(orderBy: String, orderDirection: String, limit: Int, offset: Int, uuids: [String], isFavourites: Bool) async throws -> [Coins] {
+        var coinRankingURL = ""
         
-        let coinRankingURL = coinRankingAPI + coinsPath + "orderBy=\(orderBy)&orderDirection=\(orderDirection)&limit=\(limit)&offset=\(offset)"
+        if isFavourites {
+            var uuidsParams = ""
+            for uuid in uuids {
+                uuidsParams += "uuids[]=\(uuid)&"
+            }
+            uuidsParams.removeLast()
+            
+            coinRankingURL = coinRankingAPI + coinsPath + uuidsParams
+            
+        } else {
+             coinRankingURL = coinRankingAPI + coinsPath + "orderBy=\(orderBy)&orderDirection=\(orderDirection)&limit=\(limit)&offset=\(offset)"
+        }
+        
         
         guard let url = URL(string: coinRankingURL) else {
             throw ResultError.data
