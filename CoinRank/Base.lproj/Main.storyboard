@@ -32,6 +32,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Seg-ZD-ogN">
+                                <rect key="frame" x="62" y="399.66666666666669" width="269" height="52.666666666666686"/>
+                                <string key="text">No Favourite Coins
+Swipe coin rank item to save</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-bE-qZt">
                                 <rect key="frame" x="16" y="79" width="361" height="674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -46,24 +54,32 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="jMV-cc-TTs">
+                                <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RNe-7N-nu9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="jMV-cc-TTs" firstAttribute="centerY" secondItem="9Td-fo-aHw" secondAttribute="centerY" id="1ya-ht-j53"/>
                             <constraint firstItem="nJc-bE-qZt" firstAttribute="leading" secondItem="RNe-7N-nu9" secondAttribute="leading" constant="16" id="Sk8-ka-GsV"/>
+                            <constraint firstItem="Seg-ZD-ogN" firstAttribute="centerX" secondItem="9Td-fo-aHw" secondAttribute="centerX" id="VYC-6j-K9q"/>
                             <constraint firstItem="nJc-bE-qZt" firstAttribute="top" secondItem="RNe-7N-nu9" secondAttribute="top" constant="20" id="XyM-7x-Lqg"/>
                             <constraint firstItem="RNe-7N-nu9" firstAttribute="bottom" secondItem="nJc-bE-qZt" secondAttribute="bottom" constant="16" id="eMe-CP-WTD"/>
                             <constraint firstItem="RNe-7N-nu9" firstAttribute="trailing" secondItem="nJc-bE-qZt" secondAttribute="trailing" constant="16" id="nmm-tg-Q1r"/>
+                            <constraint firstItem="Seg-ZD-ogN" firstAttribute="centerY" secondItem="9Td-fo-aHw" secondAttribute="centerY" id="pEy-n1-T6d"/>
+                            <constraint firstItem="jMV-cc-TTs" firstAttribute="centerX" secondItem="9Td-fo-aHw" secondAttribute="centerX" id="wdh-tf-ztC"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Favourites" image="heart.fill" catalog="system" id="4zC-lK-wZd"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="jMV-cc-TTs" id="zfh-j7-3b0"/>
                         <outlet property="tableView" destination="nJc-bE-qZt" id="1F3-Kd-82d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cG-4X-grb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="558" y="12"/>
+            <point key="canvasLocation" x="556.48854961832058" y="11.971830985915494"/>
         </scene>
         <!--Coin Rank-->
         <scene sceneID="Bjf-Tu-IIg">

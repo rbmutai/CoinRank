@@ -23,7 +23,7 @@ class FavouritesViewModel {
         let favourites =  persistence.getFavouriteCoins()
         
         if favourites.count > 0 {
-            
+            hasFavourites = true
             do {
                 showActivityIndicator = true
                 
@@ -41,6 +41,14 @@ class FavouritesViewModel {
         }
     }
     
+    func deleteFavouriteCoin(uuid:String){
+        persistence.deleteFavouriteCoin(uuid: uuid)
+        coins.removeAll { $0.uuid == uuid }
+        if coins.count == 0 {
+            hasFavourites = false
+        }
+    }
+    
     func processError(error: Error) {
         switch error {
             case ResultError.network:
@@ -52,5 +60,9 @@ class FavouritesViewModel {
             default:
                 errorMessage = "Error: \(error.localizedDescription)"
         }
+    }
+    func formatAmount(amount: String) -> String {
+        let amount = Double(amount)?.formatted(.currency(code: "USD").presentation(.narrow))
+        return amount ?? "Unavailable"
     }
 }
