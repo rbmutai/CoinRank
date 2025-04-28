@@ -97,6 +97,24 @@ class CoinRankViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let saveAction = UIContextualAction(style: .normal, title: "Save") {
+            (action, sourceView, completionHandler) in
+            
+            if let coin = self.viewModel?.coins[indexPath.row] {
+                self.viewModel?.saveFavouriteCoin(uuid: coin.uuid)
+                self.showAlert(message: "Saved to favourites")
+            }
+           
+           completionHandler(true)
+            
+        }
+        
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [saveAction])
+        
+        return swipeConfiguration
+    }
+    
     func setUpSortMenu() {
         let price = UIAction(title: "Highest Price", image: UIImage(systemName: "arrow.up")) { _ in
             self.sortCoinRank(order: .price)
