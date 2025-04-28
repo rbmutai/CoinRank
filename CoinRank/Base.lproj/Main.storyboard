@@ -31,10 +31,35 @@
                     <view key="view" contentMode="scaleToFill" id="9Td-fo-aHw">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-bE-qZt">
+                                <rect key="frame" x="16" y="79" width="361" height="674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="IxQ-qi-fEs">
+                                        <rect key="frame" x="0.0" y="50" width="361" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IxQ-qi-fEs" id="5iU-6V-tUb">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="RNe-7N-nu9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nJc-bE-qZt" firstAttribute="leading" secondItem="RNe-7N-nu9" secondAttribute="leading" constant="16" id="Sk8-ka-GsV"/>
+                            <constraint firstItem="nJc-bE-qZt" firstAttribute="top" secondItem="RNe-7N-nu9" secondAttribute="top" constant="20" id="XyM-7x-Lqg"/>
+                            <constraint firstItem="RNe-7N-nu9" firstAttribute="bottom" secondItem="nJc-bE-qZt" secondAttribute="bottom" constant="16" id="eMe-CP-WTD"/>
+                            <constraint firstItem="RNe-7N-nu9" firstAttribute="trailing" secondItem="nJc-bE-qZt" secondAttribute="trailing" constant="16" id="nmm-tg-Q1r"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Favourites" image="heart.fill" catalog="system" id="4zC-lK-wZd"/>
+                    <connections>
+                        <outlet property="tableView" destination="nJc-bE-qZt" id="1F3-Kd-82d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cG-4X-grb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
