@@ -11,7 +11,7 @@ import XCTest
 final class CoinRankTests: XCTestCase {
 
     func testGetCoins() async {
-        let viewModel = CoinRankViewModel(apiService: MockAPIService())
+        let viewModel = CoinRankViewModel(apiService: MockAPIService(), delegate: .none)
        
         await viewModel.getCoinsInfo()
         
