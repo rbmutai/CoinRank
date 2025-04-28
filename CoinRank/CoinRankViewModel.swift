@@ -25,6 +25,7 @@ class CoinRankViewModel {
     @Published var  showActivityIndicator = false
     @Published var  title = "Coin Rank by Highest Price"
     @Published var  coins: [Coins] = []
+    let persistence = PersistenceController.shared
     let apiService: APIServiceProtocol
     init(apiService: APIServiceProtocol) {
         self.apiService = apiService
@@ -95,4 +96,7 @@ class CoinRankViewModel {
         return amount ?? "Unavailable"
     }
     
+    func saveFavouriteCoin(uuid: String) {
+        persistence.saveFavouriteCoin(uuid: uuid)
+    }
 }
