@@ -95,13 +95,18 @@ struct DetailView: View {
                     Spacer()
                 }
             }
-            
+            Spacer()
         }.padding()
           .onAppear {
                 Task {
                     await viewModel.getCoinPrices()
                 }
             }
+          .alert("Alert", isPresented: $viewModel.showAlert) {
+              Button("OK", role: .cancel, action: {})
+          } message: {
+              Text(viewModel.errorMessage)
+          }
     }
 }
 

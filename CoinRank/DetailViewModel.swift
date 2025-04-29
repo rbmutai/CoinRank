@@ -25,6 +25,7 @@ class DetailViewModel: ObservableObject {
     @Published var coinPrices: [CoinPrice] = []
     @Published var errorMessage = ""
     @Published var showLoading = false
+    @Published var showAlert = false
     @Published var timePeriod: TimePeriod = .TwentyFourHours
     let coin: Coins
     let apiService: APIServiceProtocol
@@ -33,6 +34,7 @@ class DetailViewModel: ObservableObject {
         self.coin = coin
     }
     
+    @MainActor
     func getCoinPrices(timePeriod: TimePeriod = .TwentyFourHours) async {
         self.timePeriod  = timePeriod
         do {
@@ -74,6 +76,6 @@ class DetailViewModel: ObservableObject {
         
         priceScale.sort(by: >)
         
-        return [priceScale.first ?? 0.0, priceScale.last ?? 0.0]
+        return [priceScale.last ?? 0.0, priceScale.first ?? 0.0]
     }
 }

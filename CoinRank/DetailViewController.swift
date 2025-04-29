@@ -6,12 +6,26 @@
 //
 
 import UIKit
-
+import SwiftUI
 class DetailViewController: UIViewController {
     var viewModel: DetailViewModel?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Coin Details"
+        
+        guard let viewModel = viewModel else { return }
+        
+        //SwiftUI View
+        let detailView = DetailView(viewModel: viewModel)
+        
+        let hostingController = UIHostingController(rootView: detailView)
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.frame = view.bounds
+        hostingController.didMove(toParent: self)
+        
+        
 
         // Do any additional setup after loading the view.
     }
