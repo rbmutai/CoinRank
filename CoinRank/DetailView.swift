@@ -10,7 +10,33 @@ import Charts
 struct DetailView: View {
     @ObservedObject var viewModel: DetailViewModel
     var body: some View {
-        VStack(alignment: .leading){
+        VStack{
+            
+            CoinStatsView
+            
+            if viewModel.showLoading {
+                LoadingStateView
+            } else {
+                ChartView
+            }
+            
+            Spacer()
+            
+        }.padding()
+          .onAppear {
+                Task {
+                    await viewModel.getCoinPrices()
+                }
+            }
+          .alert("Alert", isPresented: $viewModel.showAlert) {
+              Button("OK", role: .cancel, action: {})
+          } message: {
+              Text(viewModel.errorMessage)
+          }
+    }
+    
+    private var CoinStatsView: some View {
+        VStack(alignment: .leading) {
             HStack {
                 AsyncImage(url: URL(string: viewModel.coin.iconUrl)) { phase in
                     if let image = phase.image {
@@ -55,58 +81,60 @@ struct DetailView: View {
                 Text(viewModel.formatAmount(amount: viewModel.coin.marketCap))
                     .fontWeight(.bold)
             }.padding([.top],4)
-            
+        }
+    }
+    
+    private var ChartView: some View {
+        VStack {
             Text("Price Chart")
                 .fontWeight(.bold)
                 .padding([.top], 24)
             
-            if viewModel.coinPrices.count > 0 && !viewModel.showLoading {
-                   Chart(viewModel.coinPrices, id: \.self) { coinPrice in
-                    LineMark(
-                        x: .value("Time", Date(timeIntervalSince1970: Double(coinPrice.timeStamp))),
-                        y: .value("Price", Double(coinPrice.price) ?? 0.0)
-                    )
-                    
-                }
-                .frame(height: 220)
-                .padding([.top], 4)
-                .chartYScale(domain: viewModel.chartYScale())
-                
-                HStack {
-                    ForEach(TimePeriod.allCases, id: \.self) { item in
-                        Button(item.rawValue, role: .none) {
-                            Task {
-                                await viewModel.getCoinPrices( timePeriod: item)
-                            }
-                        }.border(item == viewModel.timePeriod ? Color.gray : Color.clear)
-                        .foregroundStyle(item == viewModel.timePeriod ? Color.black : Color.gray)
-                        .padding(2)
-        
+            Chart {
+                if viewModel.coinPrices.isEmpty {
+                    RuleMark(y: .value("No Data", 0))
+                                .annotation {
+                                    Text("No data available.")
+                                        .font(.footnote)
+                                        .padding(10)
+                                }
+                } else {
+                    ForEach(viewModel.coinPrices, id: \.self) { coinPrice in
+                        LineMark(
+                            x: .value("Time", Date(timeIntervalSince1970: Double(coinPrice.timeStamp))),
+                            y: .value("Price", Double(coinPrice.price) ?? 0.0)
+                        )
                     }
                 }
-                
-            } else {
-                HStack {
-                    Spacer()
-                    ProgressView()
-                        .padding([.top], 24)
-                        .scaleEffect(1.5)
-                        .ignoresSafeArea(.all)
-                    Spacer()
+            }
+            .frame(height: 220)
+            .padding([.top], 4)
+            .chartYScale(domain: viewModel.chartYScale())
+            
+            HStack {
+                ForEach(TimePeriod.allCases, id: \.self) { item in
+                    Button(item.rawValue, role: .none) {
+                        Task {
+                            await viewModel.getCoinPrices( timePeriod: item)
+                        }
+                    }.border(item == viewModel.timePeriod ? Color.gray : Color.clear)
+                    .foregroundStyle(item == viewModel.timePeriod ? Color.black : Color.gray)
+                    .padding(2)
+    
                 }
             }
+        }
+    }
+    
+    private var LoadingStateView: some View {
+        HStack {
             Spacer()
-        }.padding()
-          .onAppear {
-                Task {
-                    await viewModel.getCoinPrices()
-                }
-            }
-          .alert("Alert", isPresented: $viewModel.showAlert) {
-              Button("OK", role: .cancel, action: {})
-          } message: {
-              Text(viewModel.errorMessage)
-          }
+            ProgressView()
+                .padding([.top],24)
+                .scaleEffect(1.5)
+                .ignoresSafeArea(.all)
+            Spacer()
+        }
     }
 }
 
