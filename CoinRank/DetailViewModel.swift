@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-enum TimePeriod: String {
+enum TimePeriod: String, CaseIterable, Hashable {
     case OneHour = "1h"
     case ThreeHours = "3h"
     case TwelveHours = "12h"
@@ -21,10 +21,11 @@ enum TimePeriod: String {
     case FiveYears = "5y"
 }
 
-class DetailViewModel {
+class DetailViewModel: ObservableObject {
     @Published var coinPrices: [CoinPrice] = []
     @Published var errorMessage = ""
     @Published var showLoading = false
+    @Published var timePeriod: TimePeriod = .TwentyFourHours
     let coin: Coins
     let apiService: APIServiceProtocol
     init(apiService: APIServiceProtocol, coin: Coins) {
@@ -33,7 +34,7 @@ class DetailViewModel {
     }
     
     func getCoinPrices(timePeriod: TimePeriod = .TwentyFourHours) async {
-        
+        self.timePeriod  = timePeriod
         do {
             showLoading = true
             
@@ -58,5 +59,21 @@ class DetailViewModel {
             default:
                 errorMessage = "Error: \(error.localizedDescription)"
         }
+    }
+    
+    func formatAmount(amount: String) -> String {
+        let amount = Double(amount)?.formatted(.currency(code: "USD").presentation(.narrow))
+        return amount ?? "Unavailable"
+    }
+    
+    func chartYScale() -> [Double] {
+       
+        var priceScale = coinPrices.compactMap({ coinPrice in
+             Double(coinPrice.price) ?? 0.0
+        })
+        
+        priceScale.sort(by: >)
+        
+        return [priceScale.first ?? 0.0, priceScale.last ?? 0.0]
     }
 }

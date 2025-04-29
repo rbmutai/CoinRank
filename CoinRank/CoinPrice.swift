@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CoinPrice: Decodable {
+struct CoinPrice: Decodable, Hashable {
   
     let price: String
     let timeStamp: Int
