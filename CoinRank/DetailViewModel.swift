@@ -61,6 +61,7 @@ class DetailViewModel: ObservableObject {
             default:
                 errorMessage = "Error: \(error.localizedDescription)"
         }
+        showAlert = true
     }
     
     func formatAmount(amount: String) -> String {
