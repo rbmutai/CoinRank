@@ -22,6 +22,11 @@ class CoinRankViewController: UIViewController, UITableViewDelegate, UITableView
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+            
         bind()
     }
     func bind(){
@@ -69,6 +74,10 @@ class CoinRankViewController: UIViewController, UITableViewDelegate, UITableView
         setUpSortMenu()
         
         fetchCoinRank()
+    }
+    @objc func updateData(refreshControl: UIRefreshControl) {
+        fetchCoinRank()
+        refreshControl.endRefreshing()
     }
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         viewModel?.setPageNumber(isNext: true)
