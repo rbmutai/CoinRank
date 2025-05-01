@@ -38,13 +38,13 @@ class DetailViewModel: ObservableObject {
     func getCoinPrices(timePeriod: TimePeriod = .TwentyFourHours) async {
         do {
             showLoading = true
-            
-            coinPrices = try await apiService.fetchPriceHistory(uuid: coin.uuid, timePeriod: timePeriod.rawValue)
-            
             self.timePeriod  = timePeriod
+            coinPrices = try await apiService.fetchPriceHistory(uuid: coin.uuid, timePeriod: timePeriod.rawValue)
+
             showLoading = false
             
         } catch {
+            coinPrices = []
             showLoading = false
             processError(error: error)
         }
