@@ -111,16 +111,18 @@ struct DetailView: View {
             .padding([.top], 4)
             .chartYScale(domain: viewModel.chartYScale())
             
-            HStack {
+            LazyVGrid(columns:
+                        [GridItem(.adaptive(minimum: 50))], spacing: 8) {
                 ForEach(TimePeriod.allCases, id: \.self) { item in
-                    Button(item.rawValue, role: .none) {
+                    Button {
                         Task {
                             await viewModel.getCoinPrices( timePeriod: item)
                         }
+                    } label: {
+                        Text(item.rawValue)
+                            .padding(4)
                     }.border(item == viewModel.timePeriod ? Color.gray : Color.clear)
                     .foregroundStyle(item == viewModel.timePeriod ? Color.black : Color.gray)
-                    .padding(2)
-    
                 }
             }
         }
