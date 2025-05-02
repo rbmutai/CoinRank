@@ -18,6 +18,10 @@ class FavouritesViewController: UIViewController, UITabBarControllerDelegate, UI
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         self.tabBarController?.delegate = self
         bind()
         // Do any additional setup after loading the view.
@@ -62,6 +66,10 @@ class FavouritesViewController: UIViewController, UITabBarControllerDelegate, UI
         
         fetchFavouriteCoins()
         
+    }
+    @objc func updateData(refreshControl: UIRefreshControl) {
+        fetchFavouriteCoins()
+        refreshControl.endRefreshing()
     }
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == 1 {
