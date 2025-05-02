@@ -10,29 +10,31 @@ import Charts
 struct DetailView: View {
     @ObservedObject var viewModel: DetailViewModel
     var body: some View {
-        VStack{
-            
-            CoinStatsView
-            
-            if viewModel.showLoading {
-                LoadingStateView
-            } else {
-                ChartView
-            }
-            
-            Spacer()
-            
-        }.padding()
-          .onAppear {
-                Task {
-                    await viewModel.getCoinPrices()
+        ScrollView{
+            VStack{
+                
+                CoinStatsView
+                
+                if viewModel.showLoading {
+                    LoadingStateView
+                } else {
+                    ChartView
                 }
-            }
-          .alert("Alert", isPresented: $viewModel.showAlert) {
-              Button("OK", role: .cancel, action: {})
-          } message: {
-              Text(viewModel.errorMessage)
-          }
+                
+                Spacer()
+                
+            }.padding()
+                .onAppear {
+                    Task {
+                        await viewModel.getCoinPrices()
+                    }
+                }
+                .alert("Alert", isPresented: $viewModel.showAlert) {
+                    Button("OK", role: .cancel, action: {})
+                } message: {
+                    Text(viewModel.errorMessage)
+                }
+        }
     }
     
     private var CoinStatsView: some View {
